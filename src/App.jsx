@@ -189,7 +189,8 @@ export default function App(props) {
         lastName: formData.lname_cdf,
         appDate: formData.appdate_cdf,
         caseNumber: formData.casenum_cdf,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        reason: "Start Recording"
       };
 
       const payload = { metadata };
@@ -250,7 +251,7 @@ export default function App(props) {
       const payload = {
         metadata: {
           taskId: taskId,
-          reason: reason,
+          reason: "Stop Recording",
           timestamp: new Date().toISOString()
         }
       };
