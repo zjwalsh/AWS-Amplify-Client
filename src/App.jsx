@@ -133,7 +133,6 @@ export default function App(props) {
 
   const showAlert = (type, message) => {
     setAlert({ show: true, type, message });
-    setTimeout(() => setAlert({ show: false, type: '', message: '' }), 5000);
   };
 
   const validateForm = () => {
@@ -602,7 +601,7 @@ export default function App(props) {
         <div className="flex flex-wrap gap-3 items-center">
           <button
             onClick={handleClearForm}
-            className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition"
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
           >
             Clear Form
           </button>
@@ -610,14 +609,14 @@ export default function App(props) {
           <button
             onClick={handleStartRecording}
             disabled={!processType || recording || !taskId}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
             title={!taskId ? 'Waiting for active call from Webex' : 'Start Recording'}
           >
             Start Recording
           </button>
 
           {recording && (
-            <span className="px-3 py-1 bg-green-500 text-white rounded-full text-sm font-medium animate-pulse">
+            <span className="px-3 py-1 bg-green-600 text-white rounded-full text-sm font-medium animate-pulse">
               ● Recording Active
             </span>
           )}
