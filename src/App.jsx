@@ -57,7 +57,12 @@ export default function App(props) {
     fname_cdf: '',
     lname_cdf: '',
     appdate_cdf: '',
-    casenum_cdf: ''
+    casenum_cdf: '',
+    formname_gr: '',
+    fname_gr: '',
+    lname_gr: '',
+    signdate_gr: '',
+    casenum_gr: ''
   });
   const [errors, setErrors] = useState({});
   const [recording, setRecording] = useState(false);
@@ -138,29 +143,37 @@ export default function App(props) {
       newErrors.process = 'Please select a process type';
     }
 
-    if (!formData.program_cdf) {
-      newErrors.program_cdf = 'Program is required';
-    }
-
-    if (!formData.appnum_cdf) {
-      newErrors.appnum_cdf = 'Application Number is required';
-      if (formData.appnum_cdf.length < 7) {
-        newErrors.appnum_cdf = 'Must be at least 7 digits';
+    if (processType === 'GAIN_REP') {
+      if (!formData.formname_gr) newErrors.formname_gr = 'Form Name is required';
+      if (!formData.fname_gr) newErrors.fname_gr = 'First Name is required';
+      if (!formData.lname_gr) newErrors.lname_gr = 'Last Name is required';
+      if (!formData.signdate_gr) newErrors.signdate_gr = 'Signature Date is required';
+      if (!formData.casenum_gr) newErrors.casenum_gr = 'Case Number is required';
+    } else {
+      if (!formData.program_cdf) {
+        newErrors.program_cdf = 'Program is required';
       }
-    }
 
-    if (!formData.fname_cdf) {
-      newErrors.fname_cdf = 'First Name is required';
-    }
+      if (!formData.appnum_cdf) {
+        newErrors.appnum_cdf = 'Application Number is required';
+        if (formData.appnum_cdf.length < 7) {
+          newErrors.appnum_cdf = 'Must be at least 7 digits';
+        }
+      }
 
-    if (!formData.lname_cdf) {
-      newErrors.lname_cdf = 'Last Name is required';
-    }
+      if (!formData.fname_cdf) {
+        newErrors.fname_cdf = 'First Name is required';
+      }
 
-    if (processType === 'LRS' && !formData.casenum_cdf) {
-      newErrors.casenum_cdf = 'Case Number is required for LRS';
-    // } else if (processType === 'LRS' && !formData.casenum_cdf.match(/^LRS.{7,}/)) {
-    //   newErrors.casenum_cdf = 'Must start with LRS + 7 chars';
+      if (!formData.lname_cdf) {
+        newErrors.lname_cdf = 'Last Name is required';
+      }
+
+      if (processType === 'LRS' && !formData.casenum_cdf) {
+        newErrors.casenum_cdf = 'Case Number is required for LRS';
+      // } else if (processType === 'LRS' && !formData.casenum_cdf.match(/^LRS.{7,}/)) {
+      //   newErrors.casenum_cdf = 'Must start with LRS + 7 chars';
+      }
     }
 
     setErrors(newErrors);
@@ -179,19 +192,32 @@ export default function App(props) {
     }
 
     try {
-      const metadata = {
-        taskId: taskId,
-        agentInfo: agentInfo,
-        process: processType,
-        program: formData.program_cdf,
-        appNumber: formData.appnum_cdf,
-        firstName: formData.fname_cdf,
-        lastName: formData.lname_cdf,
-        appDate: formData.appdate_cdf,
-        caseNumber: formData.casenum_cdf,
-        timestamp: new Date().toISOString(),
-        reason: "Start Recording"
-      };
+      const metadata = processType === 'GAIN_REP'
+        ? {
+            taskId: taskId,
+            agentInfo: agentInfo,
+            process: processType,
+            formName: formData.formname_gr,
+            firstName: formData.fname_gr,
+            lastName: formData.lname_gr,
+            signatureDate: formData.signdate_gr,
+            caseNumber: formData.casenum_gr,
+            timestamp: new Date().toISOString(),
+            reason: "Start Recording"
+          }
+        : {
+            taskId: taskId,
+            agentInfo: agentInfo,
+            process: processType,
+            program: formData.program_cdf,
+            appNumber: formData.appnum_cdf,
+            firstName: formData.fname_cdf,
+            lastName: formData.lname_cdf,
+            appDate: formData.appdate_cdf,
+            caseNumber: formData.casenum_cdf,
+            timestamp: new Date().toISOString(),
+            reason: "Start Recording"
+          };
 
       const payload = { metadata };
       const bodyString = JSON.stringify(payload);
@@ -302,7 +328,12 @@ export default function App(props) {
       fname_cdf: '',
       lname_cdf: '',
       appdate_cdf: '',
-      casenum_cdf: ''
+      casenum_cdf: '',
+      formname_gr: '',
+      fname_gr: '',
+      lname_gr: '',
+      signdate_gr: '',
+      casenum_gr: ''
     });
     setRecording(false);
     setErrors({});
@@ -379,13 +410,97 @@ export default function App(props) {
             <option value="">Select Process</option>
             <option value="LRS">LRS E-Application</option>
             <option value="YBN">YBN</option>
+            <option value="GAIN_REP">GAIN REP</option>
           </select>
           {errors.process && (
             <span className="text-red-600 text-sm mt-1">{errors.process}</span>
           )}
         </div>
 
-        {processType && (
+        {processType === 'GAIN_REP' && (
+          <div className="space-y-4 mb-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Form Name *
+              </label>
+              <input
+                type="text"
+                value={formData.formname_gr}
+                onChange={(e) => handleInputChange('formname_gr', e.target.value)}
+                placeholder="Form Name"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {errors.formname_gr && (
+                <span className="text-red-600 text-sm mt-1 block">{errors.formname_gr}</span>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Applicant First Name *
+              </label>
+              <input
+                type="text"
+                value={formData.fname_gr}
+                onChange={(e) => handleInputChange('fname_gr', e.target.value)}
+                placeholder="First Name"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {errors.fname_gr && (
+                <span className="text-red-600 text-sm mt-1 block">{errors.fname_gr}</span>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Applicant Last Name *
+              </label>
+              <input
+                type="text"
+                value={formData.lname_gr}
+                onChange={(e) => handleInputChange('lname_gr', e.target.value)}
+                placeholder="Last Name"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {errors.lname_gr && (
+                <span className="text-red-600 text-sm mt-1 block">{errors.lname_gr}</span>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Signature Date *
+              </label>
+              <input
+                type="date"
+                value={formData.signdate_gr}
+                onChange={(e) => handleInputChange('signdate_gr', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {errors.signdate_gr && (
+                <span className="text-red-600 text-sm mt-1 block">{errors.signdate_gr}</span>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Case Number *
+              </label>
+              <input
+                type="text"
+                value={formData.casenum_gr}
+                onChange={(e) => handleInputChange('casenum_gr', e.target.value)}
+                placeholder="Case Number"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {errors.casenum_gr && (
+                <span className="text-red-600 text-sm mt-1 block">{errors.casenum_gr}</span>
+              )}
+            </div>
+          </div>
+        )}
+
+        {processType && processType !== 'GAIN_REP' && (
           <div className="space-y-4 mb-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
