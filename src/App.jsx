@@ -58,7 +58,7 @@ export default function App(props) {
     lname_cdf: '',
     appdate_cdf: '',
     casenum_cdf: '',
-    formname_gr: '',
+    formname_gr: 'GAIN',
     fname_gr: '',
     lname_gr: '',
     signdate_gr: '',
@@ -328,7 +328,7 @@ export default function App(props) {
       lname_cdf: '',
       appdate_cdf: '',
       casenum_cdf: '',
-      formname_gr: '',
+      formname_gr: 'GAIN',
       fname_gr: '',
       lname_gr: '',
       signdate_gr: '',
@@ -420,7 +420,7 @@ export default function App(props) {
           <div className="space-y-4 mb-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Form Name *
+                Program *
               </label>
               <input
                 type="text"

@@ -166,10 +166,24 @@ class WebexTSFormsWidget extends HTMLElement {
       .tsforms-root .px-4 { padding-left:1rem !important; padding-right:1rem !important; }
       .tsforms-root .py-2 { padding-top:.5rem !important; padding-bottom:.5rem !important; }
       .tsforms-root .rounded-md { border-radius:.375rem !important; }
-      .tsforms-root .bg-blue-600 { background-color: #2563eb !important; color: #fff !important; }
-      .tsforms-root .bg-gray-500 { background-color: #6b7280 !important; color: #fff !important; }
       .tsforms-root .text-sm { font-size: .875rem !important; line-height: 1.25rem !important; }
       .tsforms-root .shadow-md { box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important; }
+      /* Button colors */
+      .tsforms-root .bg-green-600 { background-color: #16a34a !important; color: #fff !important; }
+      .tsforms-root .bg-green-600:hover { background-color: #15803d !important; }
+      .tsforms-root .bg-green-500 { background-color: #22c55e !important; color: #fff !important; }
+      .tsforms-root .bg-red-600 { background-color: #dc2626 !important; color: #fff !important; }
+      .tsforms-root .bg-red-600:hover { background-color: #b91c1c !important; }
+      .tsforms-root .bg-blue-600 { background-color: #2563eb !important; color: #fff !important; }
+      .tsforms-root .bg-gray-500 { background-color: #6b7280 !important; color: #fff !important; }
+      .tsforms-root button:disabled { background-color: #d1d5db !important; color: #9ca3af !important; cursor: not-allowed !important; }
+      /* Alert colors */
+      .tsforms-root .bg-green-100 { background-color: #dcfce7 !important; }
+      .tsforms-root .text-green-800 { color: #166534 !important; }
+      .tsforms-root .bg-red-100 { background-color: #fee2e2 !important; }
+      .tsforms-root .text-red-800 { color: #991b1b !important; }
+      .tsforms-root .bg-blue-100 { background-color: #dbeafe !important; }
+      .tsforms-root .text-blue-800 { color: #1e40af !important; }
     `;
     try {
       const style = (root.createElement ? root.createElement('style') : document.createElement('style'));
